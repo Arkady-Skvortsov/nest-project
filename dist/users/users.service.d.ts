@@ -9,6 +9,6 @@ export declare class UsersService {
     get_all(): Promise<User[]>;
     create_user(userDTO: UserDTO): Promise<User>;
     get_current_user(id: ObjectId): Promise<User>;
-    update_user(): Promise<import("mongoose").UpdateWriteOpResult>;
-    delete_user(userDTO: UserDTO): Promise<void>;
+    update_user(id: ObjectId, userDTO: UserDTO): Promise<User>;
+    delete_user(id: ObjectId): Promise<ObjectId>;
 }

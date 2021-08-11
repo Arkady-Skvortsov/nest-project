@@ -6,13 +6,10 @@ export type UserDocument = mongoose.Document & User;
 
 @Schema()
 export class User {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
-  id: number;
-
   @Prop({ type: mongoose.Schema.Types.String, required: true })
   username: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
+  @Prop({ type: mongoose.Schema.Types.String, required: true })
   login: string;
 
   @Prop({

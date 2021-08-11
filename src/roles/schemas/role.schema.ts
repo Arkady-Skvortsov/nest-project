@@ -6,9 +6,6 @@ export type RoleDocument = mongoose.Document & Role;
 
 @Schema()
 export class Role {
-  @Prop({ type: mongoose.Schema.Types.Number, auto: true })
-  id: number;
-
   @Prop({ type: mongoose.Schema.Types.String })
   name: string;
 

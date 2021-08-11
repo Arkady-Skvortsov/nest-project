@@ -15,15 +15,11 @@ const mongoose = require("mongoose");
 let User = class User {
 };
 __decorate([
-    mongoose_1.Prop({ type: mongoose.Schema.Types.ObjectId, required: true }),
-    __metadata("design:type", Number)
-], User.prototype, "id", void 0);
-__decorate([
     mongoose_1.Prop({ type: mongoose.Schema.Types.String, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
-    mongoose_1.Prop({ type: mongoose.Schema.Types.ObjectId, required: true }),
+    mongoose_1.Prop({ type: mongoose.Schema.Types.String, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "login", void 0);
 __decorate([

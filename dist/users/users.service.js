@@ -35,12 +35,13 @@ let UsersService = class UsersService {
         const current = await this.userModel.findById(id);
         return current;
     }
-    async update_user() {
-        const update = await this.userModel.updateOne();
+    async update_user(id, userDTO) {
+        const update = await this.userModel.findByIdAndUpdate(id, userDTO);
         return update;
     }
-    async delete_user(userDTO) {
-        await this.userModel.deleteOne(userDTO);
+    async delete_user(id) {
+        const user = await this.userModel.findByIdAndDelete();
+        return user._id;
     }
 };
 UsersService = __decorate([

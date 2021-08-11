@@ -2,7 +2,6 @@ import * as mongoose from 'mongoose';
 import { Role } from '../../roles/schemas/role.schema';
 export declare type UserDocument = mongoose.Document & User;
 export declare class User {
-    id: number;
     username: string;
     login: string;
     password: string;

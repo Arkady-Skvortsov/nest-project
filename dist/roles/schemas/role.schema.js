@@ -15,10 +15,6 @@ const mongoose = require("mongoose");
 let Role = class Role {
 };
 __decorate([
-    mongoose_1.Prop({ type: mongoose.Schema.Types.Number, auto: true }),
-    __metadata("design:type", Number)
-], Role.prototype, "id", void 0);
-__decorate([
     mongoose_1.Prop({ type: mongoose.Schema.Types.String }),
     __metadata("design:type", String)
 ], Role.prototype, "name", void 0);

@@ -17,8 +17,13 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
-  async get_all(res, req) {
+  async get_all() {
     return this.usersService.get_all();
+  }
+
+  @Get(':id')
+  async get_current_user(@Param('id') id: ObjectId) {
+    return this.usersService.get_current_user(id);
   }
 
   @Post('/create')
@@ -26,8 +31,13 @@ export class UsersController {
     return this.usersService.create_user(dto);
   }
 
-  @Get(':id')
-  async get_current_user(@Param('id') id: ObjectId) {
-    return this.usersService.get_current_user(id);
+  @Post(':id')
+  async update_user(@Param('id') id: ObjectId, @Body() dto: UserDTO) {
+    return this.usersService.update_user(id, dto);
+  }
+
+  @Delete('/delete/:id')
+  async delete_user(@Param('id') id: ObjectId) {
+    return this.usersService.delete_user(id);
   }
 }

@@ -31,13 +31,16 @@ export class UsersService {
     return current;
   }
 
-  async update_user() {
-    const update = await this.userModel.updateOne();
+  //Fix it later
+  async update_user(id: ObjectId, userDTO: UserDTO): Promise<User> {
+    const update = await this.userModel.findByIdAndUpdate(id, userDTO);
 
     return update;
   }
 
-  async delete_user(userDTO: UserDTO) {
-    await this.userModel.deleteOne(userDTO);
+  async delete_user(id: ObjectId): Promise<ObjectId> {
+    const user = await this.userModel.findByIdAndDelete();
+
+    return user._id;
   }
 }

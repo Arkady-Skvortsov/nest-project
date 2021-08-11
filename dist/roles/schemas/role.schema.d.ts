@@ -2,7 +2,6 @@ import * as mongoose from 'mongoose';
 import { User } from '@prisma/client';
 export declare type RoleDocument = mongoose.Document & Role;
 export declare class Role {
-    id: number;
     name: string;
     users: User[];
 }
