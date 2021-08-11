@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RolesModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const user_schema_1 = require("../users/schemas/user.schema");
 const roles_controller_1 = require("./roles.controller");
 const roles_service_1 = require("./roles.service");
 const role_schema_1 = require("./schemas/role.schema");
@@ -21,8 +20,8 @@ RolesModule = __decorate([
         providers: [roles_service_1.RolesService],
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: role_schema_1.Role.name, schema: role_schema_1.RoleSchema }]),
-            mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }]),
         ],
+        exports: [roles_service_1.RolesService],
     })
 ], RolesModule);
 exports.RolesModule = RolesModule;

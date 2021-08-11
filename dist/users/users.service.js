@@ -18,30 +18,37 @@ const common_1 = require("@nestjs/common");
 const mongoose_2 = require("@nestjs/mongoose");
 const user_schema_1 = require("./schemas/user.schema");
 const role_schema_1 = require("../roles/schemas/role.schema");
+const role_create_dto_1 = require("../roles/dto/role-create.dto");
 let UsersService = class UsersService {
     constructor(userModel, roleModel) {
         this.userModel = userModel;
         this.roleModel = roleModel;
     }
     async get_all() {
-        const all = await this.userModel.find();
-        return all;
+        const all_users = await this.userModel.find();
+        return all_users;
     }
     async create_user(userDTO) {
-        const create = await this.userModel.create(userDTO);
-        return create;
+        const create_user = await this.userModel.create(userDTO);
+        return create_user;
     }
     async get_current_user(id) {
-        const current = await this.userModel.findById(id);
-        return current;
+        const current_user = await this.userModel.findById(id);
+        return current_user;
     }
     async update_user(id, userDTO) {
-        const update = await this.userModel.findByIdAndUpdate(id, userDTO);
-        return update;
+        const update_user = await this.userModel.findByIdAndUpdate(id, userDTO);
+        await update_user.save();
+        return update_user;
     }
     async delete_user(id) {
-        const user = await this.userModel.findByIdAndDelete();
-        return user._id;
+        const delete_user = await this.userModel.findByIdAndDelete(id);
+        return delete_user._id;
+    }
+    async add_role(id, userDTO, roleDTO) {
+        const user = await this.userModel.findById(id);
+        await user.updateOne(userDTO);
+        await user.save();
     }
 };
 UsersService = __decorate([

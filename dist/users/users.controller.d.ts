@@ -1,6 +1,6 @@
+import { ObjectId } from 'mongoose';
 import { UsersService } from './users.service';
 import { UserDTO } from './dto/create-user.dto';
-import { ObjectId } from 'mongoose';
 export declare class UsersController {
     private usersService;
     constructor(usersService: UsersService);

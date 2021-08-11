@@ -12,22 +12,21 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
 const roles_module_1 = require("./roles/roles.module");
-const users_controller_1 = require("./users/users.controller");
 const users_module_1 = require("./users/users.module");
 let AppModule = AppModule_1 = class AppModule {
 };
 AppModule = AppModule_1 = __decorate([
     common_1.Module({
-        controllers: [users_controller_1.UsersController],
+        controllers: [],
         providers: [],
         imports: [
             config_1.ConfigModule.forRoot({
                 envFilePath: '.env',
             }),
             mongoose_1.MongooseModule.forRoot(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_DATABASE}.5lkfz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`),
+            AppModule_1,
             users_module_1.UsersModule,
             roles_module_1.RolesModule,
-            AppModule_1,
         ],
     })
 ], AppModule);

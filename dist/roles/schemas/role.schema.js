@@ -15,13 +15,13 @@ const mongoose = require("mongoose");
 let Role = class Role {
 };
 __decorate([
-    mongoose_1.Prop({ type: mongoose.Schema.Types.String }),
+    mongoose_1.Prop({ type: mongoose.Schema.Types.String, required: true }),
     __metadata("design:type", String)
-], Role.prototype, "name", void 0);
+], Role.prototype, "title", void 0);
 __decorate([
-    mongoose_1.Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] }),
-    __metadata("design:type", Array)
-], Role.prototype, "users", void 0);
+    mongoose_1.Prop({ type: mongoose.Schema.Types.String, required: true }),
+    __metadata("design:type", String)
+], Role.prototype, "description", void 0);
 Role = __decorate([
     mongoose_1.Schema()
 ], Role);

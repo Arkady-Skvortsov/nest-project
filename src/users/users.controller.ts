@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongoose';
 import {
   Controller,
   Delete,
@@ -5,12 +6,10 @@ import {
   Param,
   Post,
   Put,
-  Req,
   Body,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDTO } from './dto/create-user.dto';
-import { ObjectId } from 'mongoose';
 
 @Controller('users')
 export class UsersController {
@@ -31,7 +30,7 @@ export class UsersController {
     return this.usersService.create_user(dto);
   }
 
-  @Post(':id')
+  @Put('/update/:id')
   async update_user(@Param('id') id: ObjectId, @Body() dto: UserDTO) {
     return this.usersService.update_user(id, dto);
   }

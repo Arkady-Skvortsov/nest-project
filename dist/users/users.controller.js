@@ -57,7 +57,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "create_user", null);
 __decorate([
-    common_1.Post(':id'),
+    common_1.Put('/update/:id'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
     __metadata("design:type", Function),

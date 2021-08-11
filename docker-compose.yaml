@@ -19,8 +19,8 @@ services:
     ports:
       - 27017:27017
     environment:
-      - MONGO_INITDB_DATABASE=nest-cluster
-      - MONGO_INITDB_ROOT_USERNAME=Arkadiy_Mongo
-      - MONGO_INITDB_ROOT_PASSWORD=rambler555
+      - MONGO_INITDB_DATABASE=super-cluster
+      - MONGO_INITDB_ROOT_USERNAME=Arkadiy2
+      - MONGO_INITDB_ROOT_PASSWORD=Stark2003
 networks:
   default:
