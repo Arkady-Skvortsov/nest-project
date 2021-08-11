@@ -24,6 +24,8 @@
 
 ## Description
 
+<span>Backend project for CRUD operation with clear POSTGRESQL(yep, I had deleted ORM(Sequelize)).. You can brought the role(Admin, Builder and etc), registration and authorization and.. Maybe all? NO, I build the project with Docker </span>
+
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Installation

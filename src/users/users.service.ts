@@ -1,32 +1,43 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
-import { UserDTO } from 'src/models/users/dto/create-user.dto';
-import { TreeRepository } from 'typeorm';
-import { User } from '../models/users/entities/user.entity';
+import { Model, ObjectId } from 'mongoose';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { UserDTO } from './dto/create-user.dto';
+import { User, UserDocument } from './schemas/user.schema';
+import { UserInterface } from './interfaces/user.interface';
+import { Role, RoleDocument } from 'src/roles/schemas/role.schema';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private userRepository: TreeRepository<User>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Role.name) private roleModel: Model<RoleDocument>,
   ) {}
 
-  async get_simple() {
-    const user = await this.userRepository.find();
+  async get_all(): Promise<User[]> {
+    const all = await this.userModel.find();
 
-    return user;
+    return all;
   }
 
-  async get_current_user() {
-    // const users = await this.userRepository.findAll();
-  }
-
-  async create_user(dto: UserDTO) {
-    const create = await this.userRepository.create(dto);
+  async create_user(userDTO: UserDTO): Promise<User> {
+    const create = await this.userModel.create(userDTO);
 
     return create;
   }
 
-  async update_user() {}
+  async get_current_user(id: ObjectId): Promise<User> {
+    const current = await this.userModel.findById(id);
 
-  async delete_user() {}
+    return current;
+  }
+
+  async update_user() {
+    const update = await this.userModel.updateOne();
+
+    return update;
+  }
+
+  async delete_user(userDTO: UserDTO) {
+    await this.userModel.deleteOne(userDTO);
+  }
 }

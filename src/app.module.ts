@@ -1,31 +1,24 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { User } from './models/users/entities/user.entity';
+import { MongooseModule } from '@nestjs/mongoose';
 import { RolesModule } from './roles/roles.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersController } from './users/users.controller';
+import { UsersModule } from './users/users.module';
+import { UsersService } from './users/users.service';
 
 @Module({
-  controllers: [],
+  controllers: [UsersController],
   providers: [],
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),
-
-    TypeOrmModule.forRootAsync({
-      useFactory: () => ({
-        type: 'postgres',
-        host: process.env.POSTGRES_HOST,
-        port: Number(process.env.POSTGRES_PORT),
-        username: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        database: process.env.POSTGRES_DATABASE,
-      }),
-    }),
-    TypeOrmModule.forFeature([User]),
+    MongooseModule.forRoot(
+      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_DATABASE}.5lkfz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+    ),
     UsersModule,
     RolesModule,
+    AppModule,
   ],
 })
 export class AppModule {}

@@ -8,35 +8,26 @@ import {
   Req,
   Body,
 } from '@nestjs/common';
-import { UserDTO } from 'src/models/users/dto/create-user.dto';
 import { UsersService } from './users.service';
+import { UserDTO } from './dto/create-user.dto';
+import { ObjectId } from 'mongoose';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private usersService: UsersService) {}
 
   @Get()
-  get_simple() {
-    return this.userService.get_simple();
-  }
-
-  @Get('/current')
-  get_current_user() {
-    return 'get current user';
+  async get_all(res, req) {
+    return this.usersService.get_all();
   }
 
   @Post('/create')
   async create_user(@Body() dto: UserDTO) {
-    await this.userService.create_user(dto);
+    return this.usersService.create_user(dto);
   }
 
-  @Put('/change_user_information')
-  update_user() {
-    return 'update user information';
-  }
-
-  @Delete()
-  delete_user() {
-    return 'delete current user';
+  @Get(':id')
+  async get_current_user(@Param('id') id: ObjectId) {
+    return this.usersService.get_current_user(id);
   }
 }

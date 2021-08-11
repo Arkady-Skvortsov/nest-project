@@ -13,6 +13,12 @@ describe('UsersController', () => {
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(controller).not.toBeUndefined();
   });
+
+  // describe('Request methods of UserController', () => {
+  //   it('Get all users', () => {
+  //     expect(controller.users).toBeInstanceOf(Array);
+  //   });
+  // });
 });
