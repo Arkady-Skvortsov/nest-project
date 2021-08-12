@@ -26,7 +26,7 @@ __decorate([
     mongoose_1.Prop({
         type: mongoose.Schema.Types.String,
         required: true,
-        validate: /[A-Z]/g,
+        validate: /[A-Z].{1}/g,
     }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);

@@ -15,11 +15,21 @@ const mongoose = require("mongoose");
 let Role = class Role {
 };
 __decorate([
-    mongoose_1.Prop({ type: mongoose.Schema.Types.String, required: true }),
+    mongoose_1.Prop({
+        type: mongoose.Schema.Types.String,
+        required: true,
+        unique: true,
+        default: 'User',
+    }),
     __metadata("design:type", String)
 ], Role.prototype, "title", void 0);
 __decorate([
-    mongoose_1.Prop({ type: mongoose.Schema.Types.String, required: true }),
+    mongoose_1.Prop({
+        type: mongoose.Schema.Types.String,
+        required: true,
+        unique: true,
+        default: 'You can only write comments',
+    }),
     __metadata("design:type", String)
 ], Role.prototype, "description", void 0);
 Role = __decorate([

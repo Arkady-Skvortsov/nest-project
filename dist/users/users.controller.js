@@ -16,6 +16,7 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
+const role_create_dto_1 = require("../roles/dto/role-create.dto");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;

@@ -15,7 +15,7 @@ export class User {
   @Prop({
     type: mongoose.Schema.Types.String,
     required: true,
-    validate: /[A-Z]/g,
+    validate: /[A-Z].{1}/g,
   })
   password: string;
 

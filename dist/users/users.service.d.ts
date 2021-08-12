@@ -1,16 +1,13 @@
 import { Model, ObjectId } from 'mongoose';
 import { UserDTO } from './dto/create-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
-import { RoleDocument } from 'src/roles/schemas/role.schema';
-import { RoleDTO } from 'src/roles/dto/role-create.dto';
 export declare class UsersService {
     private userModel;
-    private roleModel;
-    constructor(userModel: Model<UserDocument>, roleModel: Model<RoleDocument>);
+    constructor(userModel: Model<UserDocument>);
     get_all(): Promise<User[]>;
     create_user(userDTO: UserDTO): Promise<User>;
     get_current_user(id: ObjectId): Promise<User>;
+    get_user_by_username(username: string): Promise<User>;
     update_user(id: ObjectId, userDTO: UserDTO): Promise<User>;
     delete_user(id: ObjectId): Promise<ObjectId>;
-    add_role(id: ObjectId, userDTO: UserDTO, roleDTO: RoleDTO): Promise<void>;
 }

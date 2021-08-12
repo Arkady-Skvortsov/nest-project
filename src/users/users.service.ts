@@ -1,55 +1,80 @@
 import { Model, ObjectId } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserDTO } from './dto/create-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
-import { UserInterface } from './interfaces/user.interface';
-import { Role, RoleDocument } from 'src/roles/schemas/role.schema';
-import { RoleDTO } from 'src/roles/dto/role-create.dto';
+import { HttpException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
-    @InjectModel(Role.name) private roleModel: Model<RoleDocument>,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async get_all(): Promise<User[]> {
-    const all_users = await this.userModel.find();
+    try {
+      const all_users = await this.userModel.find();
 
-    return all_users;
+      return all_users;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async create_user(userDTO: UserDTO): Promise<User> {
-    const create_user = await this.userModel.create(userDTO);
+    try {
+      const create_user = await this.userModel.create(userDTO);
 
-    return create_user;
+      return create_user;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async get_current_user(id: ObjectId): Promise<User> {
-    const current_user = await this.userModel.findById(id);
+    try {
+      const current_user = await this.userModel.findById(id);
 
-    return current_user;
+      return current_user;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async get_user_by_username(username: string): Promise<User> {
+    try {
+      const username_user = await this.userModel.findOne({
+        where: { username: username },
+        include: { all: true },
+      });
+
+      return username_user;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async update_user(id: ObjectId, userDTO: UserDTO): Promise<User> {
-    const update_user = await this.userModel.findByIdAndUpdate(id, userDTO);
+    try {
+      const update_user = await this.userModel.findByIdAndUpdate(id, userDTO);
 
-    await update_user.save();
-
-    return update_user;
+      return update_user;
+    } catch (e) {
+      throw new HttpException(
+        'Нельзя обновить пользователя с таким id',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async delete_user(id: ObjectId): Promise<ObjectId> {
-    const delete_user = await this.userModel.findByIdAndDelete(id);
+    try {
+      const delete_user = await this.userModel.findByIdAndDelete(id);
 
-    return delete_user._id;
-  }
-
-  async add_role(id: ObjectId, userDTO: UserDTO, roleDTO: RoleDTO) {
-    const user = await this.userModel.findById(id);
-    await user.updateOne(userDTO);
-
-    await user.save();
+      return delete_user._id;
+    } catch (e) {
+      throw new HttpException(
+        'Нельзя удалить пользователя с таким Id',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

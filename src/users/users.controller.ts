@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDTO } from './dto/create-user.dto';
+import { RoleDTO } from 'src/roles/dto/role-create.dto';
 
 @Controller('users')
 export class UsersController {

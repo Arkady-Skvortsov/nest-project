@@ -22,19 +22,40 @@ let RolesService = class RolesService {
         this.roleModel = roleModel;
     }
     async get_all_roles() {
-        const all_roles = await this.roleModel.find();
-        return all_roles;
+        try {
+            const all_roles = await this.roleModel.find();
+            return all_roles;
+        }
+        catch (e) {
+            throw e;
+        }
     }
     async create_new_role(roleDTO) {
-        const new_role = await this.roleModel.create(roleDTO);
-        return new_role;
+        try {
+            const new_role = await this.roleModel.create(roleDTO);
+            return new_role;
+        }
+        catch (e) {
+            throw e;
+        }
     }
     async delete_role(id) {
-        await this.roleModel.findByIdAndDelete(id);
+        try {
+            await this.roleModel.findByIdAndDelete(id);
+        }
+        catch (e) {
+            throw e;
+        }
     }
     async update_role(id, roleDTO) {
-        const update_role = await this.roleModel.findByIdAndUpdate(id, roleDTO);
-        return update_role;
+        try {
+            const update_role = await this.roleModel.findByIdAndUpdate(id, roleDTO);
+            update_role.save();
+            return update_role;
+        }
+        catch (e) {
+            throw e;
+        }
     }
 };
 RolesService = __decorate([

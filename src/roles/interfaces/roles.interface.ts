@@ -1,3 +1,3 @@
 export class RoleInterface {
-  readonly name: string;
+  name: string;
 }
