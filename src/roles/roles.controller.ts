@@ -17,8 +17,13 @@ export class RolesController {
   constructor(private rolesService: RolesService) {}
 
   @Get()
-  async get_all_roles(): Promise<Role[]> {
+  async get_all_roles() {
     return this.rolesService.get_all_roles();
+  }
+
+  @Get(':id')
+  async get_correct_role(@Param() id: ObjectId) {
+    return this.rolesService.get_correct_role(id);
   }
 
   @Post('/create')

@@ -42,7 +42,7 @@ export class UsersService {
   async get_user_by_username(username: string): Promise<User> {
     try {
       const username_user = await this.userModel.findOne({
-        where: { username: username },
+        username: username,
         include: { all: true },
       });
 
@@ -64,6 +64,21 @@ export class UsersService {
       );
     }
   }
+
+  // async give_role_to_user(id: ObjectId, username: string) {
+  //   try {
+  //     const current_user = await this.userModel.findById(id);
+
+  //     current_user.role.push(current_role);
+
+  //     return current_role;
+  //   } catch (e) {
+  //     throw new HttpException(
+  //       'Нельзя дать пользователю такую роль!',
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  //   }
+  // }
 
   async delete_user(id: ObjectId): Promise<ObjectId> {
     try {

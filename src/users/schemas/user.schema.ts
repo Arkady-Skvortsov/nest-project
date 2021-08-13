@@ -6,7 +6,7 @@ export type UserDocument = mongoose.Document & User;
 
 @Schema()
 export class User {
-  @Prop({ type: mongoose.Schema.Types.String, required: true })
+  @Prop({ type: mongoose.Schema.Types.String, unique: true, required: true })
   username: string;
 
   @Prop({ type: mongoose.Schema.Types.String, required: true })
@@ -14,12 +14,13 @@ export class User {
 
   @Prop({
     type: mongoose.Schema.Types.String,
-    required: true,
-    validate: /[A-Z].{1}/g,
+    required: false,
+    unique: true,
+    validate: /^[A-Z].{1}/g,
   })
   password: string;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.String, ref: 'Role' }] })
+  @Prop({ type: [{ type: mongoose.Schema.Types.Array, ref: 'Role' }] })
   role: Role[];
 }
 

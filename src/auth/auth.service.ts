@@ -7,7 +7,6 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UserDTO } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +16,9 @@ export class AuthService {
   ) {}
 
   async login(userDTO: UserDTO) {
-    const user = await this.verify_token(userDTO);
-    return this.generate_token(user);
+    return this.validate_user(userDTO);
+
+    //return this.generate_token(new_user);
   }
 
   async registration(userDTO: UserDTO) {
@@ -30,14 +30,9 @@ export class AuthService {
         HttpStatus.BAD_REQUEST,
       );
 
-    const hash_password = await bcrypt.hashSync(userDTO.password, 5);
+    const token = await this.userService.create_user(userDTO);
 
-    const new_user = await this.userService.create_user({
-      ...userDTO,
-      password: hash_password,
-    });
-
-    await this.generate_token(new_user);
+    return this.generate_token(token);
   }
 
   private async generate_token(userDTO: UserDTO) {
@@ -51,15 +46,19 @@ export class AuthService {
     };
   }
 
-  private async verify_token(userDTO: UserDTO) {
+  private async validate_user(userDTO: UserDTO) {
     const user = await this.userService.get_user_by_username(userDTO.username);
-    const password_eq = await bcrypt.compare(userDTO.password, user.password);
 
-    if (!user && !password_eq) {
+    if (!user)
       throw new UnauthorizedException({
-        message: 'Неверный username или пароль',
+        message: 'Такого пользователя не существует',
       });
-    }
+
+    // if (!user || userDTO.password !== user.password) {
+    //   throw new UnauthorizedException({
+    //     message: 'Неверный username или пароль',
+    //   });
+    // }
 
     return user;
   }

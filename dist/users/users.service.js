@@ -52,7 +52,7 @@ let UsersService = class UsersService {
     async get_user_by_username(username) {
         try {
             const username_user = await this.userModel.findOne({
-                where: { username: username },
+                username: username,
                 include: { all: true },
             });
             return username_user;

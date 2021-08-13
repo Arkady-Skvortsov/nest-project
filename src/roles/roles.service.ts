@@ -18,6 +18,16 @@ export class RolesService {
     }
   }
 
+  async get_correct_role(id: ObjectId): Promise<Role> {
+    try {
+      const correct_role = await this.roleModel.findById(id);
+
+      return correct_role;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   async create_new_role(roleDTO: RoleDTO): Promise<Role> {
     try {
       const new_role = await this.roleModel.create(roleDTO);

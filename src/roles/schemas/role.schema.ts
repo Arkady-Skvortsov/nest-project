@@ -8,16 +8,12 @@ export class Role {
   @Prop({
     type: mongoose.Schema.Types.String,
     required: true,
-    unique: true,
-    default: 'User',
   })
   title: string;
 
   @Prop({
     type: mongoose.Schema.Types.String,
     required: true,
-    unique: true,
-    default: 'You can only write comments',
   })
   description: string;
 }

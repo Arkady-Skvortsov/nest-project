@@ -23,6 +23,9 @@ let RolesController = class RolesController {
     async get_all_roles() {
         return this.rolesService.get_all_roles();
     }
+    async get_correct_role(id) {
+        return this.rolesService.get_correct_role(id);
+    }
     async create_new_role(roleDTO) {
         return this.rolesService.create_new_role(roleDTO);
     }
@@ -39,6 +42,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], RolesController.prototype, "get_all_roles", null);
+__decorate([
+    common_1.Get(':id'),
+    __param(0, common_1.Param()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], RolesController.prototype, "get_correct_role", null);
 __decorate([
     common_1.Post('/create'),
     __param(0, common_1.Body()),

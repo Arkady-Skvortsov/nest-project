@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Role, RoleSchema } from 'src/roles/schemas/role.schema';
+import { RoleSchema, Role } from 'src/roles/schemas/role.schema';
 import { User, UserSchema } from 'src/users/schemas/user.schema';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';

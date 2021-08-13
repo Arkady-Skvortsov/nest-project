@@ -14,23 +14,20 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const create_user_dto_1 = require("../users/dto/create-user.dto");
 const users_service_1 = require("../users/users.service");
-const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     constructor(userService, jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;
     }
     async login(userDTO) {
-        const user = await this.verify_token(userDTO);
-        return this.generate_token(user);
+        return this.validate_user(userDTO);
     }
     async registration(userDTO) {
         const user = await this.userService.get_user_by_username(userDTO.username);
         if (user)
             throw new common_1.HttpException('Такой пользователь уже зарегистрирован', common_1.HttpStatus.BAD_REQUEST);
-        const hash_password = await bcrypt.hashSync(userDTO.password, 5);
-        const new_user = await this.userService.create_user(Object.assign(Object.assign({}, userDTO), { password: hash_password }));
-        await this.generate_token(new_user);
+        const token = await this.userService.create_user(userDTO);
+        return this.generate_token(token);
     }
     async generate_token(userDTO) {
         const ready_token = {
@@ -41,14 +38,12 @@ let AuthService = class AuthService {
             token: this.jwtService.sign(ready_token),
         };
     }
-    async verify_token(userDTO) {
+    async validate_user(userDTO) {
         const user = await this.userService.get_user_by_username(userDTO.username);
-        const password_eq = await bcrypt.compare(userDTO.password, user.password);
-        if (!user && !password_eq) {
+        if (!user)
             throw new common_1.UnauthorizedException({
-                message: 'Неверный username или пароль',
+                message: 'Такого пользователя не существует',
             });
-        }
         return user;
     }
 };

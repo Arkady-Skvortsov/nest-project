@@ -15,7 +15,7 @@ const mongoose = require("mongoose");
 let User = class User {
 };
 __decorate([
-    mongoose_1.Prop({ type: mongoose.Schema.Types.String, required: true }),
+    mongoose_1.Prop({ type: mongoose.Schema.Types.String, unique: true, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
@@ -25,13 +25,14 @@ __decorate([
 __decorate([
     mongoose_1.Prop({
         type: mongoose.Schema.Types.String,
-        required: true,
-        validate: /[A-Z].{1}/g,
+        required: false,
+        unique: true,
+        validate: /^[A-Z].{1}/g,
     }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    mongoose_1.Prop({ type: [{ type: mongoose.Schema.Types.String, ref: 'Role' }] }),
+    mongoose_1.Prop({ type: [{ type: mongoose.Schema.Types.Array, ref: 'Role' }] }),
     __metadata("design:type", Array)
 ], User.prototype, "role", void 0);
 User = __decorate([
