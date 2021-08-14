@@ -6,6 +6,7 @@ export declare class RolesService {
     constructor(roleModel: Model<RoleDocument>);
     get_all_roles(): Promise<Role[]>;
     get_correct_role(id: ObjectId): Promise<Role>;
+    get_role_by_title(title: string): Promise<Role>;
     create_new_role(roleDTO: RoleDTO): Promise<Role>;
     delete_role(id: ObjectId): Promise<void>;
     update_role(id: ObjectId, roleDTO: RoleDTO): Promise<Role>;

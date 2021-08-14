@@ -8,6 +8,6 @@ export declare class UsersService {
     create_user(userDTO: UserDTO): Promise<User>;
     get_current_user(id: ObjectId): Promise<User>;
     get_user_by_username(username: string): Promise<User>;
-    update_user(id: ObjectId, userDTO: UserDTO): Promise<User>;
+    update_user(id: ObjectId, userDTO: UserDTO): Promise<void>;
     delete_user(id: ObjectId): Promise<ObjectId>;
 }

@@ -21,7 +21,11 @@ export class UsersService {
 
   async create_user(userDTO: UserDTO): Promise<User> {
     try {
-      const create_user = await this.userModel.create(userDTO);
+      const create_user = await this.userModel.create({
+        ...userDTO,
+      });
+
+      await create_user.save();
 
       return create_user;
     } catch (e) {
@@ -41,10 +45,7 @@ export class UsersService {
 
   async get_user_by_username(username: string): Promise<User> {
     try {
-      const username_user = await this.userModel.findOne({
-        username: username,
-        include: { all: true },
-      });
+      const username_user = await this.userModel.findOne({ username });
 
       return username_user;
     } catch (e) {
@@ -52,33 +53,22 @@ export class UsersService {
     }
   }
 
-  async update_user(id: ObjectId, userDTO: UserDTO): Promise<User> {
+  async update_user(id: ObjectId, userDTO: UserDTO) {
     try {
-      const update_user = await this.userModel.findByIdAndUpdate(id, userDTO);
+      const user = await this.userModel.findOneAndUpdate({ _id: id }, userDTO, {
+        upsert: true,
+        new: true,
+      });
 
-      return update_user;
+      console.log(user);
     } catch (e) {
+      console.log(e);
       throw new HttpException(
         'Нельзя обновить пользователя с таким id',
         HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-  // async give_role_to_user(id: ObjectId, username: string) {
-  //   try {
-  //     const current_user = await this.userModel.findById(id);
-
-  //     current_user.role.push(current_role);
-
-  //     return current_role;
-  //   } catch (e) {
-  //     throw new HttpException(
-  //       'Нельзя дать пользователю такую роль!',
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   }
-  // }
 
   async delete_user(id: ObjectId): Promise<ObjectId> {
     try {

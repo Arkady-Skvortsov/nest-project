@@ -20,14 +20,25 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
     }
     async login(userDTO) {
-        return this.validate_user(userDTO);
+        try {
+            const log_user = await this.validate_user(userDTO);
+            return this.generate_token(log_user);
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async registration(userDTO) {
-        const user = await this.userService.get_user_by_username(userDTO.username);
-        if (user)
-            throw new common_1.HttpException('Такой пользователь уже зарегистрирован', common_1.HttpStatus.BAD_REQUEST);
-        const token = await this.userService.create_user(userDTO);
-        return this.generate_token(token);
+        try {
+            const user = await this.userService.get_user_by_username(userDTO.username);
+            if (user)
+                return new common_1.HttpException('Такой пользователь уже зарегистрирован', common_1.HttpStatus.FORBIDDEN);
+            const token = await this.userService.create_user(userDTO);
+            return this.generate_token(token);
+        }
+        catch (e) {
+            throw new common_1.HttpException('Такой пользователь уже зарегистрирован', common_1.HttpStatus.FORBIDDEN);
+        }
     }
     async generate_token(userDTO) {
         const ready_token = {
@@ -39,12 +50,17 @@ let AuthService = class AuthService {
         };
     }
     async validate_user(userDTO) {
-        const user = await this.userService.get_user_by_username(userDTO.username);
-        if (!user)
-            throw new common_1.UnauthorizedException({
-                message: 'Такого пользователя не существует',
-            });
-        return user;
+        try {
+            const user = await this.userService.get_user_by_username(userDTO.username);
+            if (!user)
+                throw new common_1.UnauthorizedException({
+                    message: 'Такой пользователь не зарегистрирован',
+                });
+            return user;
+        }
+        catch (e) {
+            throw new common_1.HttpException('Такой пользователь не зарегистрирован', common_1.HttpStatus.FORBIDDEN);
+        }
     }
 };
 AuthService = __decorate([

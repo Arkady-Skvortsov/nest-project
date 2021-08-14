@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolesModule } from './roles/roles.module';
@@ -18,7 +18,7 @@ import { AuthModule } from './auth/auth.module';
     AppModule,
     UsersModule,
     RolesModule,
-    AuthModule,
+    forwardRef(() => AuthModule),
   ],
 })
 export class AppModule {}

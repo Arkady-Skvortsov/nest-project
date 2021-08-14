@@ -16,23 +16,36 @@ export class AuthService {
   ) {}
 
   async login(userDTO: UserDTO) {
-    return this.validate_user(userDTO);
+    try {
+      const log_user = await this.validate_user(userDTO);
 
-    //return this.generate_token(new_user);
+      return this.generate_token(log_user);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async registration(userDTO: UserDTO) {
-    const user = await this.userService.get_user_by_username(userDTO.username);
-
-    if (user)
-      throw new HttpException(
-        'Такой пользователь уже зарегистрирован',
-        HttpStatus.BAD_REQUEST,
+    try {
+      const user = await this.userService.get_user_by_username(
+        userDTO.username,
       );
 
-    const token = await this.userService.create_user(userDTO);
+      if (user)
+        return new HttpException(
+          'Такой пользователь уже зарегистрирован',
+          HttpStatus.FORBIDDEN,
+        );
 
-    return this.generate_token(token);
+      const token = await this.userService.create_user(userDTO);
+
+      return this.generate_token(token);
+    } catch (e) {
+      throw new HttpException(
+        'Такой пользователь уже зарегистрирован',
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 
   private async generate_token(userDTO: UserDTO) {
@@ -47,19 +60,22 @@ export class AuthService {
   }
 
   private async validate_user(userDTO: UserDTO) {
-    const user = await this.userService.get_user_by_username(userDTO.username);
+    try {
+      const user = await this.userService.get_user_by_username(
+        userDTO.username,
+      );
 
-    if (!user)
-      throw new UnauthorizedException({
-        message: 'Такого пользователя не существует',
-      });
+      if (!user)
+        throw new UnauthorizedException({
+          message: 'Такой пользователь не зарегистрирован',
+        });
 
-    // if (!user || userDTO.password !== user.password) {
-    //   throw new UnauthorizedException({
-    //     message: 'Неверный username или пароль',
-    //   });
-    // }
-
-    return user;
+      return user;
+    } catch (e) {
+      throw new HttpException(
+        'Такой пользователь не зарегистрирован',
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 }

@@ -16,7 +16,9 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
-const role_create_dto_1 = require("../roles/dto/role-create.dto");
+const auth_guard_1 = require("../auth/auth.guard");
+const swagger_1 = require("@nestjs/swagger");
+const user_schema_1 = require("./schemas/user.schema");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -38,12 +40,17 @@ let UsersController = class UsersController {
     }
 };
 __decorate([
+    swagger_1.ApiOperation({ summary: 'Get all users, which have' }),
+    swagger_1.ApiResponse({ status: 200, type: user_schema_1.User }),
+    common_1.UseGuards(auth_guard_1.JwtAuthGuard),
     common_1.Get(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "get_all", null);
 __decorate([
+    swagger_1.ApiOperation({ summary: 'Get current user by id' }),
+    swagger_1.ApiResponse({ status: 200, type: user_schema_1.User }),
     common_1.Get(':id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -51,6 +58,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "get_current_user", null);
 __decorate([
+    swagger_1.ApiOperation({ summary: 'Create the user' }),
+    swagger_1.ApiResponse({ status: 200, type: user_schema_1.User }),
     common_1.Post('/create'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -58,6 +67,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "create_user", null);
 __decorate([
+    swagger_1.ApiOperation({ summary: 'Update the user by him (personal) id' }),
+    swagger_1.ApiResponse({ status: 200, type: user_schema_1.User }),
     common_1.Put('/update/:id'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
@@ -66,6 +77,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "update_user", null);
 __decorate([
+    swagger_1.ApiOperation({ summary: 'Delete the user by him (personal) id' }),
+    swagger_1.ApiResponse({ status: 200, type: user_schema_1.User }),
     common_1.Delete('/delete/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -73,6 +86,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "delete_user", null);
 UsersController = __decorate([
+    swagger_1.ApiTags('Users'),
     common_1.Controller('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);

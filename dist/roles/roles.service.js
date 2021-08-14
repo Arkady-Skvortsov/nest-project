@@ -39,6 +39,18 @@ let RolesService = class RolesService {
             throw e;
         }
     }
+    async get_role_by_title(title) {
+        try {
+            const current_role = await this.roleModel.findOne({
+                where: { title: title },
+                include: { all: true },
+            });
+            return current_role;
+        }
+        catch (e) {
+            throw e;
+        }
+    }
     async create_new_role(roleDTO) {
         try {
             const new_role = await this.roleModel.create(roleDTO);
@@ -58,9 +70,9 @@ let RolesService = class RolesService {
     }
     async update_role(id, roleDTO) {
         try {
-            const update_role = await this.roleModel.findByIdAndUpdate(id, roleDTO);
-            update_role.save();
-            return update_role;
+            return this.roleModel.findByIdAndUpdate(id, {
+                set: Object.assign({}, roleDTO),
+            }, { upsert: true });
         }
         catch (e) {
             throw e;

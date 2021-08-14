@@ -33,7 +33,8 @@ let UsersService = class UsersService {
     }
     async create_user(userDTO) {
         try {
-            const create_user = await this.userModel.create(userDTO);
+            const create_user = await this.userModel.create(Object.assign({}, userDTO));
+            await create_user.save();
             return create_user;
         }
         catch (e) {
@@ -51,10 +52,7 @@ let UsersService = class UsersService {
     }
     async get_user_by_username(username) {
         try {
-            const username_user = await this.userModel.findOne({
-                username: username,
-                include: { all: true },
-            });
+            const username_user = await this.userModel.findOne({ username });
             return username_user;
         }
         catch (e) {
@@ -63,10 +61,14 @@ let UsersService = class UsersService {
     }
     async update_user(id, userDTO) {
         try {
-            const update_user = await this.userModel.findByIdAndUpdate(id, userDTO);
-            return update_user;
+            const user = await this.userModel.findOneAndUpdate({ _id: id }, userDTO, {
+                upsert: true,
+                new: true,
+            });
+            console.log(user);
         }
         catch (e) {
+            console.log(e);
             throw new common_2.HttpException('Нельзя обновить пользователя с таким id', common_1.HttpStatus.BAD_REQUEST);
         }
     }

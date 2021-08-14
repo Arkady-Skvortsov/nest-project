@@ -9,12 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JwtAuthGuard = void 0;
+exports.AuthGuard = void 0;
+const auth_service_1 = require("./auth.service");
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const common_2 = require("@nestjs/common");
-let JwtAuthGuard = class JwtAuthGuard {
-    constructor(jwtService) {
+let AuthGuard = class AuthGuard {
+    constructor(authService, jwtService) {
+        this.authService = authService;
         this.jwtService = jwtService;
     }
     canActivate(context) {
@@ -22,7 +24,7 @@ let JwtAuthGuard = class JwtAuthGuard {
         try {
             const bearer = req.headers.authorization.split(' ')[0];
             const token = req.headers.authorization.split(' ')[1];
-            if (bearer !== 'Bearer' && !token) {
+            if (!bearer && !token) {
                 throw new common_2.UnauthorizedException('Пользователь не авторизован');
             }
             const user = this.jwtService.verify(token);
@@ -34,9 +36,10 @@ let JwtAuthGuard = class JwtAuthGuard {
         }
     }
 };
-JwtAuthGuard = __decorate([
+AuthGuard = __decorate([
     common_1.Injectable(),
-    __metadata("design:paramtypes", [jwt_1.JwtService])
-], JwtAuthGuard);
-exports.JwtAuthGuard = JwtAuthGuard;
-//# sourceMappingURL=auth.guard.js.map
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        jwt_1.JwtService])
+], AuthGuard);
+exports.AuthGuard = AuthGuard;
+//# sourceMappingURL=auth.middleware.js.map

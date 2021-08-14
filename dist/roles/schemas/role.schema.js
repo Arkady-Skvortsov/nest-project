@@ -11,10 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoleSchema = exports.Role = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const swagger_1 = require("@nestjs/swagger");
 const mongoose = require("mongoose");
 let Role = class Role {
 };
 __decorate([
+    swagger_1.ApiProperty({
+        example: 'Admin',
+        description: 'A title of the (current) role',
+    }),
     mongoose_1.Prop({
         type: mongoose.Schema.Types.String,
         required: true,
@@ -22,6 +27,10 @@ __decorate([
     __metadata("design:type", String)
 ], Role.prototype, "title", void 0);
 __decorate([
+    swagger_1.ApiProperty({
+        example: 'You can ban the users and will give the benefits',
+        description: 'A description of the (current) role',
+    }),
     mongoose_1.Prop({
         type: mongoose.Schema.Types.String,
         required: true,

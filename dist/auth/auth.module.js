@@ -13,6 +13,7 @@ const auth_controller_1 = require("./auth.controller");
 const users_module_1 = require("../users/users.module");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
+const common_2 = require("@nestjs/common");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -23,13 +24,13 @@ AuthModule = __decorate([
             config_1.ConfigModule.forRoot({
                 envFilePath: '.env',
             }),
-            users_module_1.UsersModule,
+            common_2.forwardRef(() => users_module_1.UsersModule),
             jwt_1.JwtModule.register({
                 secret: process.env.SECRET_KEY,
-                signOptions: { expiresIn: '15h' },
+                signOptions: { expiresIn: '5h' },
             }),
         ],
-        exports: [auth_service_1.AuthService],
+        exports: [auth_service_1.AuthService, jwt_1.JwtService],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

@@ -28,7 +28,7 @@ AppModule = AppModule_1 = __decorate([
             AppModule_1,
             users_module_1.UsersModule,
             roles_module_1.RolesModule,
-            auth_module_1.AuthModule,
+            common_1.forwardRef(() => auth_module_1.AuthModule),
         ],
     })
 ], AppModule);

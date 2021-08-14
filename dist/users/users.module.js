@@ -9,10 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const role_schema_1 = require("../roles/schemas/role.schema");
+const common_2 = require("@nestjs/common");
+const auth_module_1 = require("../auth/auth.module");
 const user_schema_1 = require("./schemas/user.schema");
 const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
+const jwt_1 = require("@nestjs/jwt");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
@@ -20,8 +22,8 @@ UsersModule = __decorate([
         controllers: [users_controller_1.UsersController],
         providers: [users_service_1.UsersService],
         imports: [
+            common_2.forwardRef(() => jwt_1.JwtService),
             mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }]),
-            mongoose_1.MongooseModule.forFeature([{ name: role_schema_1.Role.name, schema: role_schema_1.RoleSchema }]),
         ],
         exports: [users_service_1.UsersService],
     })

@@ -9,7 +9,9 @@ services:
       - .env
     restart: always
     volumes:
-      - ./models:/app/models
+      - ./src/auth:/app/auth
+      - ./src/roles:/app/roles
+      - ./src/users:/app/users
     ports:
       - 4500:4500
 

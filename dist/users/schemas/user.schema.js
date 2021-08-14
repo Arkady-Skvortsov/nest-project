@@ -11,18 +11,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserSchema = exports.User = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const swagger_1 = require("@nestjs/swagger");
 const mongoose = require("mongoose");
 let User = class User {
 };
 __decorate([
+    swagger_1.ApiProperty({
+        example: 'Billy_Little_Big_Boy',
+        description: 'A username of the (current) user',
+    }),
     mongoose_1.Prop({ type: mongoose.Schema.Types.String, unique: true, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
+    swagger_1.ApiProperty({
+        example: 'Oskv7',
+        description: 'A login of the (current) user',
+    }),
     mongoose_1.Prop({ type: mongoose.Schema.Types.String, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "login", void 0);
 __decorate([
+    swagger_1.ApiProperty({
+        example: 'SweetCheese123',
+        description: 'A password of the (current) user',
+    }),
     mongoose_1.Prop({
         type: mongoose.Schema.Types.String,
         required: false,
