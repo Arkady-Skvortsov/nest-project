@@ -13,6 +13,7 @@ exports.RoleSchema = exports.Role = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const swagger_1 = require("@nestjs/swagger");
 const mongoose = require("mongoose");
+const user_schema_1 = require("../../users/schemas/user.schema");
 let Role = class Role {
 };
 __decorate([
@@ -23,6 +24,7 @@ __decorate([
     mongoose_1.Prop({
         type: mongoose.Schema.Types.String,
         required: true,
+        allowNull: false,
     }),
     __metadata("design:type", String)
 ], Role.prototype, "title", void 0);
@@ -34,9 +36,21 @@ __decorate([
     mongoose_1.Prop({
         type: mongoose.Schema.Types.String,
         required: true,
+        allowNull: false,
     }),
     __metadata("design:type", String)
 ], Role.prototype, "description", void 0);
+__decorate([
+    swagger_1.ApiProperty({
+        example: 'SlamDunk, Docker-Cocker',
+        description: 'Many to Many from User to Role into MongoDB',
+    }),
+    mongoose_1.Prop({
+        type: [{ type: mongoose.Schema.Types.ObjectId, refPath: 'User' }],
+        required: true,
+    }),
+    __metadata("design:type", Array)
+], Role.prototype, "users", void 0);
 Role = __decorate([
     mongoose_1.Schema()
 ], Role);

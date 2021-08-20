@@ -1,13 +1,17 @@
 import { Model, ObjectId } from 'mongoose';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { HttpException } from '@nestjs/common';
 import { UserDTO } from './dto/create-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
-import { HttpException } from '@nestjs/common';
+import { RolesService } from 'src/roles/roles.service';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private rolesService: RolesService,
+  ) {}
 
   async get_all(): Promise<User[]> {
     try {
@@ -25,7 +29,9 @@ export class UsersService {
         ...userDTO,
       });
 
-      await create_user.save();
+      const default_role = await this.rolesService.get_role_by_title('User');
+
+      await create_user.$set('roles', [default_role]);
 
       return create_user;
     } catch (e) {
@@ -33,19 +39,12 @@ export class UsersService {
     }
   }
 
-  async get_current_user(id: ObjectId): Promise<User> {
-    try {
-      const current_user = await this.userModel.findById(id);
-
-      return current_user;
-    } catch (e) {
-      throw e;
-    }
-  }
-
   async get_user_by_username(username: string): Promise<User> {
     try {
-      const username_user = await this.userModel.findOne({ username });
+      const username_user = await this.userModel.findOne({
+        where: { username: username },
+        include: { all: true },
+      });
 
       return username_user;
     } catch (e) {
@@ -53,19 +52,31 @@ export class UsersService {
     }
   }
 
-  async update_user(id: ObjectId, userDTO: UserDTO) {
+  async update_user(id: ObjectId, userDTO: UserDTO): Promise<User> {
     try {
       const user = await this.userModel.findOneAndUpdate({ _id: id }, userDTO, {
         upsert: true,
         new: true,
       });
 
-      console.log(user);
+      return user;
     } catch (e) {
-      console.log(e);
       throw new HttpException(
         'Нельзя обновить пользователя с таким id',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.FORBIDDEN,
+      );
+    }
+  }
+
+  async set_role_to_user(id: ObjectId, userDTO: UserDTO): Promise<User> {
+    try {
+      const user = await this.userModel.findById(id);
+
+      return user;
+    } catch (e) {
+      throw new HttpException(
+        'Нельзя выдать роль этому пользователю',
+        HttpStatus.FORBIDDEN,
       );
     }
   }

@@ -5,6 +5,6 @@ export declare class User {
     username: string;
     login: string;
     password: string;
-    role: Role[];
+    roles: Role;
 }
 export declare const UserSchema: mongoose.Schema<mongoose.Document<User, any, any>, mongoose.Model<any, any, any>, undefined, any>;

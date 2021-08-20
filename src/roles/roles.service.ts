@@ -61,15 +61,11 @@ export class RolesService {
 
   async update_role(id: ObjectId, roleDTO: RoleDTO): Promise<Role> {
     try {
-      return this.roleModel.findByIdAndUpdate(
-        id,
-        {
-          set: {
-            ...roleDTO,
-          },
-        },
-        { upsert: true },
-      );
+      const updated = await this.roleModel.findByIdAndUpdate(id, {
+        ...roleDTO,
+      });
+
+      return updated;
     } catch (e) {
       throw e;
     }

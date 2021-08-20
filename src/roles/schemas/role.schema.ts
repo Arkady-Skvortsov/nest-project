@@ -1,6 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import * as mongoose from 'mongoose';
+import { User } from 'src/users/schemas/user.schema';
 
 export type RoleDocument = mongoose.Document & Role;
 
@@ -13,6 +14,7 @@ export class Role {
   @Prop({
     type: mongoose.Schema.Types.String,
     required: true,
+    allowNull: false,
   })
   title: string;
 
@@ -23,8 +25,19 @@ export class Role {
   @Prop({
     type: mongoose.Schema.Types.String,
     required: true,
+    allowNull: false,
   })
   description: string;
+
+  @ApiProperty({
+    example: 'SlamDunk, Docker-Cocker',
+    description: 'Many to Many from User to Role into MongoDB',
+  })
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, refPath: 'User' }],
+    required: true,
+  })
+  users: User[];
 }
 
 export const RoleSchema = SchemaFactory.createForClass(Role);

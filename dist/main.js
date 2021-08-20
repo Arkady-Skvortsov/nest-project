@@ -8,9 +8,9 @@ async function bootstrap() {
         const PORT = process.env.PORT || 4500;
         const app = await core_1.NestFactory.create(app_module_1.AppModule);
         const config = new swagger_1.DocumentBuilder()
-            .setTitle('Full CRUD app')
+            .setTitle('Full CRUD app with 2 JWT Tokens (ACCESS, REFRESH)')
             .setDescription('Simple CRUD operation app, which had been done with Nest.js')
-            .setVersion('1.0')
+            .setVersion('2.0')
             .addTag('Nest.js')
             .build();
         const document = swagger_1.SwaggerModule.createDocument(app, config);

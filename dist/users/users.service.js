@@ -16,11 +16,13 @@ exports.UsersService = void 0;
 const mongoose_1 = require("mongoose");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("@nestjs/mongoose");
-const user_schema_1 = require("./schemas/user.schema");
 const common_2 = require("@nestjs/common");
+const user_schema_1 = require("./schemas/user.schema");
+const roles_service_1 = require("../roles/roles.service");
 let UsersService = class UsersService {
-    constructor(userModel) {
+    constructor(userModel, rolesService) {
         this.userModel = userModel;
+        this.rolesService = rolesService;
     }
     async get_all() {
         try {
@@ -34,17 +36,9 @@ let UsersService = class UsersService {
     async create_user(userDTO) {
         try {
             const create_user = await this.userModel.create(Object.assign({}, userDTO));
-            await create_user.save();
+            const default_role = await this.rolesService.get_role_by_title('User');
+            await create_user.$set('roles', [default_role]);
             return create_user;
-        }
-        catch (e) {
-            throw e;
-        }
-    }
-    async get_current_user(id) {
-        try {
-            const current_user = await this.userModel.findById(id);
-            return current_user;
         }
         catch (e) {
             throw e;
@@ -52,7 +46,10 @@ let UsersService = class UsersService {
     }
     async get_user_by_username(username) {
         try {
-            const username_user = await this.userModel.findOne({ username });
+            const username_user = await this.userModel.findOne({
+                where: { username: username },
+                include: { all: true },
+            });
             return username_user;
         }
         catch (e) {
@@ -65,11 +62,19 @@ let UsersService = class UsersService {
                 upsert: true,
                 new: true,
             });
-            console.log(user);
+            return user;
         }
         catch (e) {
-            console.log(e);
-            throw new common_2.HttpException('Нельзя обновить пользователя с таким id', common_1.HttpStatus.BAD_REQUEST);
+            throw new common_2.HttpException('Нельзя обновить пользователя с таким id', common_1.HttpStatus.FORBIDDEN);
+        }
+    }
+    async set_role_to_user(id, userDTO) {
+        try {
+            const user = await this.userModel.findById(id);
+            return user;
+        }
+        catch (e) {
+            throw new common_2.HttpException('Нельзя выдать роль этому пользователю', common_1.HttpStatus.FORBIDDEN);
         }
     }
     async delete_user(id) {
@@ -85,7 +90,8 @@ let UsersService = class UsersService {
 UsersService = __decorate([
     common_1.Injectable(),
     __param(0, mongoose_2.InjectModel(user_schema_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        roles_service_1.RolesService])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

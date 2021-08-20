@@ -5,9 +5,9 @@ import {
   Get,
   Param,
   Post,
-  Put,
   Body,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDTO } from './dto/create-user.dto';
@@ -30,9 +30,10 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Get current user by id' })
   @ApiResponse({ status: 200, type: User })
-  @Get(':id')
-  async get_current_user(@Param('id') id: ObjectId) {
-    return this.usersService.get_current_user(id);
+  @UseGuards(JwtAuthGuard)
+  @Get(':username')
+  async get_current_user(@Param('username') username: string) {
+    return this.usersService.get_user_by_username(username);
   }
 
   @ApiOperation({ summary: 'Create the user' })
@@ -47,6 +48,13 @@ export class UsersController {
   @Put('/update/:id')
   async update_user(@Param('id') id: ObjectId, @Body() dto: UserDTO) {
     return this.usersService.update_user(id, dto);
+  }
+
+  @ApiOperation({ summary: 'Set new role to the user' })
+  @ApiResponse({ status: 200, type: User })
+  @Put('/set_role/:id')
+  async set_role_to_user(@Param('id') id: ObjectId, @Body() dto: UserDTO) {
+    return this.usersService.set_role_to_user(id, dto);
   }
 
   @ApiOperation({ summary: 'Delete the user by him (personal) id' })

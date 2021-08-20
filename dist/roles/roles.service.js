@@ -70,9 +70,8 @@ let RolesService = class RolesService {
     }
     async update_role(id, roleDTO) {
         try {
-            return this.roleModel.findByIdAndUpdate(id, {
-                set: Object.assign({}, roleDTO),
-            }, { upsert: true });
+            const updated = await this.roleModel.findByIdAndUpdate(id, Object.assign({}, roleDTO));
+            return updated;
         }
         catch (e) {
             throw e;

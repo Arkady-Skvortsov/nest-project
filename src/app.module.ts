@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolesModule } from './roles/roles.module';
@@ -13,12 +13,12 @@ import { AuthModule } from './auth/auth.module';
       envFilePath: '.env',
     }),
     MongooseModule.forRoot(
-      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_DATABASE}.5lkfz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}.sekrq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
     ),
     AppModule,
     UsersModule,
     RolesModule,
-    forwardRef(() => AuthModule),
+    AuthModule,
   ],
 })
 export class AppModule {}

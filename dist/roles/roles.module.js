@@ -12,6 +12,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const roles_controller_1 = require("./roles.controller");
 const roles_service_1 = require("./roles.service");
 const role_schema_1 = require("./schemas/role.schema");
+const user_schema_1 = require("../users/schemas/user.schema");
 let RolesModule = class RolesModule {
 };
 RolesModule = __decorate([
@@ -19,7 +20,10 @@ RolesModule = __decorate([
         controllers: [roles_controller_1.RolesController],
         providers: [roles_service_1.RolesService],
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: role_schema_1.Role.name, schema: role_schema_1.RoleSchema }]),
+            mongoose_1.MongooseModule.forFeature([
+                { name: role_schema_1.Role.name, schema: role_schema_1.RoleSchema },
+                { name: user_schema_1.User.name, schema: user_schema_1.UserSchema },
+            ]),
         ],
         exports: [roles_service_1.RolesService],
     })

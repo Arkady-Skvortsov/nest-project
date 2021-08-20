@@ -1,4 +1,3 @@
-import { HttpException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserDTO } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
@@ -9,7 +8,7 @@ export declare class AuthService {
     login(userDTO: UserDTO): Promise<{
         token: string;
     }>;
-    registration(userDTO: UserDTO): Promise<HttpException | {
+    registration(userDTO: UserDTO): Promise<{
         token: string;
     }>;
     private generate_token;

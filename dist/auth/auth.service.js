@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
+const bcrypt_1 = require("bcrypt");
 const create_user_dto_1 = require("../users/dto/create-user.dto");
 const users_service_1 = require("../users/users.service");
 let AuthService = class AuthService {
@@ -32,11 +33,13 @@ let AuthService = class AuthService {
         try {
             const user = await this.userService.get_user_by_username(userDTO.username);
             if (user)
-                return new common_1.HttpException('Такой пользователь уже зарегистрирован', common_1.HttpStatus.FORBIDDEN);
-            const token = await this.userService.create_user(userDTO);
-            return this.generate_token(token);
+                throw new common_1.HttpException('Такой пользователь уже зарегистрирован', common_1.HttpStatus.FORBIDDEN);
+            const hash_password = await bcrypt_1.default.hashSync(userDTO.password, 3);
+            const new_user = await this.userService.create_user(Object.assign(Object.assign({}, userDTO), { password: hash_password }));
+            return this.generate_token(new_user);
         }
         catch (e) {
+            console.log(e);
             throw new common_1.HttpException('Такой пользователь уже зарегистрирован', common_1.HttpStatus.FORBIDDEN);
         }
     }

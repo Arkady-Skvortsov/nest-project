@@ -7,22 +7,22 @@ services:
     build: ./
     env_file:
       - .env
-    restart: always
-    volumes:
-      - ./src/auth:/app/auth
-      - ./src/roles:/app/roles
-      - ./src/users:/app/users
+    depends_on:
+      - db
     ports:
       - 4500:4500
 
-  mongo:
+  db:
     container_name: mongo_container
     image: mongo
     ports:
       - 27017:27017
+    env_file:
+      - .env
     environment:
-      - MONGO_INITDB_DATABASE=super-cluster
-      - MONGO_INITDB_ROOT_USERNAME=Arkadiy2
-      - MONGO_INITDB_ROOT_PASSWORD=Stark2003
+      - MONGO_INITDB_DATABASE=$MONGODB_CLUSTER
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+
 networks:
   default:

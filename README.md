@@ -24,7 +24,7 @@
 
 ## Description
 
-<span>Backend project for CRUD operation with MongoDB(Mongoose, yep, I had deleted PostgresQL(Sequelize)).. You can brought the role(Admin, Builder and etc), registration and authorization and.. Maybe all? NO, I build the project with Docker </span>
+<span>Backend project for CRUD operation with MongoDB(Mongoose, yep, I had deleted PostgresQL(Sequelize)).. You can brought the role(Admin, Builder and etc), registration and authorization and.. Maybe all? NO, I build the project with Docker on the host:($host-name)</span>
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 

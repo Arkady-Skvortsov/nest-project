@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import bcrypt from 'bcrypt';
 import { UserDTO } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 
@@ -32,15 +33,21 @@ export class AuthService {
       );
 
       if (user)
-        return new HttpException(
+        throw new HttpException(
           'Такой пользователь уже зарегистрирован',
           HttpStatus.FORBIDDEN,
         );
 
-      const token = await this.userService.create_user(userDTO);
+      const hash_password = await bcrypt.hashSync(userDTO.password, 3);
 
-      return this.generate_token(token);
+      const new_user = await this.userService.create_user({
+        ...userDTO,
+        password: hash_password,
+      });
+
+      return this.generate_token(new_user);
     } catch (e) {
+      console.log(e);
       throw new HttpException(
         'Такой пользователь уже зарегистрирован',
         HttpStatus.FORBIDDEN,

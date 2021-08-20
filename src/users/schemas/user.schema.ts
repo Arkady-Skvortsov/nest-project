@@ -33,8 +33,12 @@ export class User {
   })
   password: string;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.Array, ref: 'Role' }] })
-  role: Role[];
+  @ApiProperty({
+    example: 'Subscriber, Admin',
+    description: 'Many to Many from Role to Users into Mongo',
+  })
+  @Prop({ type: [{ type: mongoose.Schema.Types.String, refPath: 'Role' }] })
+  roles: Role;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

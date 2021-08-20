@@ -8,5 +8,5 @@ export declare class AuthController {
     }>;
     registration(userDTO: UserDTO): Promise<{
         token: string;
-    } | import("@nestjs/common").HttpException>;
+    }>;
 }

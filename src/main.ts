@@ -8,11 +8,11 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
     const config = new DocumentBuilder()
-      .setTitle('Full CRUD app')
+      .setTitle('Full CRUD app with 2 JWT Tokens (ACCESS, REFRESH)')
       .setDescription(
         'Simple CRUD operation app, which had been done with Nest.js',
       )
-      .setVersion('1.0')
+      .setVersion('2.0')
       .addTag('Nest.js')
       .build();
     const document = SwaggerModule.createDocument(app, config);

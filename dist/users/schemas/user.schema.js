@@ -13,6 +13,7 @@ exports.UserSchema = exports.User = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const swagger_1 = require("@nestjs/swagger");
 const mongoose = require("mongoose");
+const role_schema_1 = require("../../roles/schemas/role.schema");
 let User = class User {
 };
 __decorate([
@@ -45,9 +46,13 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    mongoose_1.Prop({ type: [{ type: mongoose.Schema.Types.Array, ref: 'Role' }] }),
-    __metadata("design:type", Array)
-], User.prototype, "role", void 0);
+    swagger_1.ApiProperty({
+        example: 'Subscriber, Admin',
+        description: 'Many to Many from Role to Users into Mongo',
+    }),
+    mongoose_1.Prop({ type: [{ type: mongoose.Schema.Types.String, refPath: 'Role' }] }),
+    __metadata("design:type", role_schema_1.Role)
+], User.prototype, "roles", void 0);
 User = __decorate([
     mongoose_1.Schema()
 ], User);

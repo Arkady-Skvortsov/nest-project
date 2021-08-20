@@ -24,11 +24,11 @@ AppModule = AppModule_1 = __decorate([
             config_1.ConfigModule.forRoot({
                 envFilePath: '.env',
             }),
-            mongoose_1.MongooseModule.forRoot(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_DATABASE}.5lkfz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`),
+            mongoose_1.MongooseModule.forRoot(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}.sekrq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`),
             AppModule_1,
             users_module_1.UsersModule,
             roles_module_1.RolesModule,
-            common_1.forwardRef(() => auth_module_1.AuthModule),
+            auth_module_1.AuthModule,
         ],
     })
 ], AppModule);
